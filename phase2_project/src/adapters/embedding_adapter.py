@@ -13,7 +13,7 @@ class EmbeddingAdapter:
                 "provider": "sentence_transformers",
                 "model_name": "sentence-transformers/all-MiniLM-L6-v2",
                 "normalize_embeddings": true,
-                "batch_size": 32
+                "batch_size": 256
             }
         }
         """
@@ -24,7 +24,7 @@ class EmbeddingAdapter:
             "sentence-transformers/all-MiniLM-L6-v2"
         )
         self.normalize = self.emb_config.get("normalize_embeddings", True)
-        self.batch_size = self.emb_config.get("batch_size", 32)
+        self.batch_size = self.emb_config.get("batch_size", 256)
 
         # 延遲載入
         self.model = None
@@ -52,21 +52,25 @@ class EmbeddingAdapter:
                 "normalized": self.normalize
             }
 
-        # lazy load（只初始化一次）
+        # lazy load（動態分配執行裝置）
         if self.model is None:
             if self.provider == "sentence_transformers":
-                self.model = SentenceTransformer(self.model_name)
+                import torch
+                device = "cuda" if torch.cuda.is_available() else "cpu"
+                self.model = SentenceTransformer(self.model_name, device=device)
+                print(f"[INFO] EmbeddingAdapter 偵測硬體裝置，指定執行裝置為: {device}")
             else:
                 raise ValueError(f"未支援的 provider: {self.provider}")
 
+        # 啟用進度條以提升巨量資料編碼期之觀測性
         embeddings = self.model.encode(
             texts,
             batch_size=self.batch_size,
             normalize_embeddings=self.normalize,
-            show_progress_bar=False
+            show_progress_bar=True
         )
 
-        # invariant
+        # Invariant Check
         if embeddings.shape[0] != len(texts):
             raise RuntimeError("Invariant violated: embedding size mismatch")
 
