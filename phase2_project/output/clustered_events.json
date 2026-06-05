@@ -1,76 +1,46 @@
 [
   {
     "cluster_id": "cluster_000",
-    "total_count": 28,
+    "total_count": 5,
     "time_range": {
-      "start": "2026-05-27T10:00:01Z",
-      "end": "2026-05-27T10:10:10Z"
+      "start": "2022-02-10T03:58:29.982Z",
+      "end": "2022-02-10T03:58:29.982Z"
     },
     "representative_logs": [
       {
-        "log_id": "log_0001",
-        "timestamp": "2026-05-27T10:00:01Z",
-        "text": "At 2026-05-27T10:00:01Z, user admin_user triggered event 4688: sudo useradd -m attacker_priv. Source IP: 192.168.1.50. Destination IP: 10.0.0.5."
+        "log_id": "E000001",
+        "timestamp": "2022-02-10T03:58:29.982Z",
+        "text": "At 2022-02-10T03:58:29.982Z | dataset=uwf_zeekdata22_csv_all_no_mitre | scenario=None | host=None | user=None | event_type=suspicious_network_connection | event_id=None | source_event_id=CNHONp4bmwTvWFmFh | process=None | command=None | parent=None | source=143.88.5.12:44428 | dest=143.88.5.1:53 | protocol=udp | conn_state=S0 | tactic=None | evidence=E000001@data/uwf-zeekdata22/uwf_zeekdata22_csv_all_no_mitre.jsonl:257"
       },
       {
-        "log_id": "log_0002",
-        "timestamp": "2026-05-27T10:00:02Z",
-        "text": "At 2026-05-27T10:00:02Z, user admin_user triggered event 4688: sudo usermod -aG sudo attacker_priv. Source IP: 192.168.1.50. Destination IP: 10.0.0.5."
+        "log_id": "E000002",
+        "timestamp": "2022-02-10T03:58:29.982Z",
+        "text": "At 2022-02-10T03:58:29.982Z | dataset=uwf_zeekdata22_csv_all_no_mitre | scenario=None | host=None | user=None | event_type=suspicious_network_connection | event_id=None | source_event_id=CNHONp4bmwTvWFmFh | process=None | command=None | parent=None | source=143.88.5.12:44428 | dest=143.88.5.1:53 | protocol=udp | conn_state=S0 | tactic=None | evidence=E000002@data/uwf-zeekdata22/uwf_zeekdata22_csv_all_no_mitre.jsonl:258"
       },
       {
-        "log_id": "log_0003",
-        "timestamp": "2026-05-27T10:00:03Z",
-        "text": "At 2026-05-27T10:00:03Z, user attacker_priv triggered event 4688: sudo -l. Source IP: 192.168.1.50. Destination IP: 10.0.0.5."
+        "log_id": "E000003",
+        "timestamp": "2022-02-10T03:58:29.982Z",
+        "text": "At 2022-02-10T03:58:29.982Z | dataset=uwf_zeekdata22_csv_all_no_mitre | scenario=None | host=None | user=None | event_type=suspicious_network_connection | event_id=None | source_event_id=CNHONp4bmwTvWFmFh | process=None | command=None | parent=None | source=143.88.5.12:44428 | dest=143.88.5.1:53 | protocol=udp | conn_state=S0 | tactic=None | evidence=E000003@data/uwf-zeekdata22/uwf_zeekdata22_csv_all_no_mitre.jsonl:259"
       },
       {
-        "log_id": "log_0004",
-        "timestamp": "2026-05-27T10:00:04Z",
-        "text": "At 2026-05-27T10:00:04Z, user attacker_priv triggered event 4688: sudo su - root. Source IP: 192.168.1.51. Destination IP: 10.0.0.5."
+        "log_id": "E000004",
+        "timestamp": "2022-02-10T03:58:29.982Z",
+        "text": "At 2022-02-10T03:58:29.982Z | dataset=uwf_zeekdata22_csv_all_no_mitre | scenario=None | host=None | user=None | event_type=suspicious_network_connection | event_id=None | source_event_id=CNHONp4bmwTvWFmFh | process=None | command=None | parent=None | source=143.88.5.12:44428 | dest=143.88.5.1:53 | protocol=udp | conn_state=S0 | tactic=None | evidence=E000004@data/uwf-zeekdata22/uwf_zeekdata22_csv_all_no_mitre.jsonl:260"
       },
       {
-        "log_id": "log_0005",
-        "timestamp": "2026-05-27T10:00:05Z",
-        "text": "At 2026-05-27T10:00:05Z, user attacker_priv triggered event 4688: sudo chown root:root /etc/passwd. Source IP: 192.168.1.51. Destination IP: 10.0.0.5."
+        "log_id": "E000005",
+        "timestamp": "2022-02-10T03:58:29.982Z",
+        "text": "At 2022-02-10T03:58:29.982Z | dataset=uwf_zeekdata22_csv_all_no_mitre | scenario=None | host=None | user=None | event_type=suspicious_network_connection | event_id=None | source_event_id=CNHONp4bmwTvWFmFh | process=None | command=None | parent=None | source=143.88.5.12:44428 | dest=143.88.5.1:53 | protocol=udp | conn_state=S0 | tactic=None | evidence=E000005@data/uwf-zeekdata22/uwf_zeekdata22_csv_all_no_mitre.jsonl:261"
       }
     ],
     "involved_entities": {
       "ips": [
-        "10.0.0.100",
-        "10.0.0.101",
-        "10.0.0.102",
-        "10.0.0.15",
-        "10.0.0.20",
-        "10.0.0.25",
-        "10.0.0.35",
-        "10.0.0.40",
-        "10.0.0.45",
-        "10.0.0.5",
-        "10.0.0.6",
-        "192.168.1.50",
-        "192.168.1.51",
-        "192.168.1.52",
-        "192.168.1.53",
-        "192.168.1.54",
-        "192.168.1.60",
-        "192.168.1.61",
-        "192.168.1.62",
-        "192.168.1.63",
-        "192.168.1.64",
-        "192.168.1.70",
-        "192.168.1.71",
-        "192.168.1.72",
-        "192.168.1.73",
-        "192.168.1.74"
+        "143.88.5.1",
+        "143.88.5.12"
       ],
-      "users": [
-        "admin_user",
-        "attacker_evade",
-        "attacker_priv",
-        "attacker_scan"
-      ],
+      "users": [],
       "event_ids": [
-        "4688",
-        "5156"
+        "suspicious_network_connection"
       ]
     },
     "metadata": {
