@@ -1,6 +1,7 @@
 import json
 import os
 import sys
+import numpy as np
 
 # 匯入自訂工具與轉接器模組
 from src.utils.log_loader import load_logs
@@ -32,7 +33,8 @@ def main():
 
     # 2. 資料載入 (Log Loader)
     try:
-        raw_logs = load_logs(input_path)
+        # raw_logs = load_logs(input_path)
+        raw_logs = load_logs(input_path)[:9000]  # [暫時性修改] 截斷前 9000 筆
         print(f"[INFO] 成功載入原始日誌，共計 {len(raw_logs)} 筆。")
     except Exception as e:
         print(f"[ERROR] 載入日誌失敗: {str(e)}")
@@ -47,11 +49,32 @@ def main():
     feature_texts, text_builder_summary = build_feature_texts(valid_logs, template_version=feature_template_version)
     print(f"[INFO] 特徵文本生成完畢。截斷次數統計: {text_builder_summary['truncated_count_estimate']} 筆。")
 
-    # 5. 向量化編碼 (Embedding Encoder Adapter)
-    print("[INFO] 開始初始化 Embedding 模型並計算向量...")
-    embedding_adapter = EmbeddingAdapter(config)
-    embeddings, embedding_summary = embedding_adapter.encode(feature_texts)
-    print(f"[INFO] 向量化完成。矩陣形狀: {embeddings.shape}，維度: {embedding_summary['embedding_dimension']}。")
+    # 5. 向量化編碼 (Embedding Encoder Adapter) 並引入快取機制
+    print("[INFO] 檢查 Embedding 快取狀態...")
+    embedding_checkpoint_path = config.get("embedding", {}).get("checkpoint_path")
+    
+    if embedding_checkpoint_path and os.path.exists(embedding_checkpoint_path):
+        print(f"[INFO] 發現快取，載入既有向量矩陣: {embedding_checkpoint_path}")
+        embeddings = np.load(embedding_checkpoint_path)
+        
+        # 重建 summary 以符合後續 Invariant 驗證與 Formatter 合約
+        embedding_summary = {
+            "model_name": config.get("embedding", {}).get("model_name"),
+            "embedding_dimension": embeddings.shape[1],
+            "normalized": config.get("embedding", {}).get("normalize_embeddings", True)
+        }
+        print(f"[INFO] 快取載入完成。矩陣形狀: {embeddings.shape}，維度: {embedding_summary['embedding_dimension']}。")
+    else:
+        print("[INFO] 開始初始化 Embedding 模型並計算向量...")
+        embedding_adapter = EmbeddingAdapter(config)
+        embeddings, embedding_summary = embedding_adapter.encode(feature_texts)
+        print(f"[INFO] 向量化完成。矩陣形狀: {embeddings.shape}，維度: {embedding_summary['embedding_dimension']}。")
+        
+        # 執行持久化寫入
+        if embedding_checkpoint_path:
+            os.makedirs(os.path.dirname(embedding_checkpoint_path), exist_ok=True)
+            np.save(embedding_checkpoint_path, embeddings)
+            print(f"[INFO] 向量矩陣已持久化儲存至快取: {embedding_checkpoint_path}")
 
     # 6. 執行分群演算法 (Clustering Engine Adapter)
     # 優化：安全讀取配置，防範 KeyError
