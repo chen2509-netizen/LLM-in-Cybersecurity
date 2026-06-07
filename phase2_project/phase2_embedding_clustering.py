@@ -33,8 +33,8 @@ def main():
 
     # 2. 資料載入 (Log Loader)
     try:
-        # raw_logs = load_logs(input_path)
-        raw_logs = load_logs(input_path)[:9000]  # [暫時性修改] 截斷前 9000 筆
+        raw_logs = load_logs(input_path)
+        # raw_logs = load_logs(input_path)[:9000]  # [暫時性修改] 截斷前 9000 筆
         print(f"[INFO] 成功載入原始日誌，共計 {len(raw_logs)} 筆。")
     except Exception as e:
         print(f"[ERROR] 載入日誌失敗: {str(e)}")

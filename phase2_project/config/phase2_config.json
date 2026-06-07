@@ -6,7 +6,7 @@
       "model_name": "sentence-transformers/all-MiniLM-L6-v2",
       "normalize_embeddings": true,
       "batch_size": 256, 
-      "checkpoint_path": "output/stage2_input_embeddings9k.npy"
+      "checkpoint_path": "output/stage2_input_embeddings.npy"
     },
     "clustering": {
       "algorithm": "DBSCAN",
@@ -20,4 +20,4 @@
       "representative_log_count": 30,
       "include_noise": false
     }
-  }
+ }
